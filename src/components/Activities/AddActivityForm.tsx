@@ -25,7 +25,7 @@ const AddActivityForm: React.FC<Props> = ({ onSubmit }) => {
 
   return (
     <form
-      className='bg-white rounded-lg shadow-md p-6 space-y-4'
+      className='bg-white rounded-lg shadow-md p-6 space-y-4 my-5 place-content-center'
       onSubmit={handleSubmit}
     >
       <div className='flex flex-col'>
@@ -92,7 +92,7 @@ const AddActivityForm: React.FC<Props> = ({ onSubmit }) => {
         type='submit'
         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
       >
-        Add Activity
+        Add new task
       </button>
     </form>
   );

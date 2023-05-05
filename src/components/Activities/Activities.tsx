@@ -37,10 +37,9 @@ const Activities = () => {
     setActivities(newActivities);
   };
 
-  if (activities.length === 0) return <p>Loading...</p>;
-
   return (
     <>
+      <AddActivityForm onSubmit={addNewActivity} />
       <div className='flex flex-row gap-4 flex-wrap bg-slate-400 rounded-lg align-middle'>
         {activities.map((activity: Activity) => (
           <SingleActivity
@@ -51,8 +50,6 @@ const Activities = () => {
           />
         ))}
       </div>
-
-      <AddActivityForm onSubmit={addNewActivity} />
     </>
   );
 };
