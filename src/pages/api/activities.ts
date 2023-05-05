@@ -2,16 +2,11 @@
 import { Activity } from '@/types/activities'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-type Data = {
-  name: string
-}
-
 let activities: Array<Activity> = [
     {
         id: '1',
         type: 'Mowing',
         date: new Date(),
-        time: 30,
         pitch: 1,
         user: 'John'
     },
@@ -19,7 +14,6 @@ let activities: Array<Activity> = [
         id: '2',
         type: 'Fertilisation',
         date: new Date(),
-        time: 30,
         pitch: 2,
         user: 'Tom'
     },
@@ -27,7 +21,6 @@ let activities: Array<Activity> = [
         id: '3',
         type: 'Irrigation',
         date: new Date(),
-        time: 30,
         pitch: 3,
         user: 'Tony'
     }

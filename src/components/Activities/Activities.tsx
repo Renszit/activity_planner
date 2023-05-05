@@ -1,9 +1,11 @@
 import { Activity } from '@/types/activities';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEventHandler } from 'react';
 import SingleActivity from './SingleActivity';
+import AddActivityForm from './AddActivityForm';
+import { v4 as uuidv4 } from 'uuid';
 
 const Activities = () => {
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     const dataFetch = async () => {
@@ -14,14 +16,44 @@ const Activities = () => {
     dataFetch();
   }, []);
 
+  const removeActivity: MouseEventHandler = async (e) => {
+    const id = e.currentTarget.id;
+    const newActivities = activities.filter((act) => act.id !== id);
+    setActivities(newActivities);
+  };
+
+  const addNewActivity = (activity: Activity) => {
+    const newActivity: Activity = {
+      ...activity,
+      id: uuidv4(),
+    };
+    setActivities([...activities, newActivity]);
+  };
+
+  const addEditedActivity = (activity: Activity) => {
+    const newActivities = activities.map((act) =>
+      act.id === activity.id ? activity : act
+    );
+    setActivities(newActivities);
+  };
+
   if (activities.length === 0) return <p>Loading...</p>;
 
   return (
-    <div className='flex flex-row gap-4 flex-wrap  bg-slate-400 rounded-lg align-middle'>
-      {activities.map((activity: Activity) => (
-        <SingleActivity key={activity.id} act={activity} />
-      ))}
-    </div>
+    <>
+      <div className='flex flex-row gap-4 flex-wrap bg-slate-400 rounded-lg align-middle'>
+        {activities.map((activity: Activity) => (
+          <SingleActivity
+            saveEdit={addEditedActivity}
+            onClick={removeActivity}
+            key={activity.id}
+            act={activity}
+          />
+        ))}
+      </div>
+
+      <AddActivityForm onSubmit={addNewActivity} />
+    </>
   );
 };
 

@@ -3,10 +3,9 @@ export type ActivityUser = 'John' | 'Tom' | 'Tony';
 export type ActivityPitch = 1 | 2 | 3;
 
 export interface Activity {
-    id: string;
+    id: string ;
     type: ActivityType;
     date: Date;
-    time: number;
     pitch: ActivityPitch;
     user: ActivityUser;
 }
