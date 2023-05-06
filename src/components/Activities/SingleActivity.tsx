@@ -5,15 +5,20 @@ import { useState } from 'react';
 type SingleActivityProps = {
   act: Activity;
   onClick?: React.MouseEventHandler;
-  saveEdit: (activity: Activity) => void;
+  saveEdit: (activity: Activity) => boolean | void;
 };
 
 const SingleActivity = ({ act, onClick, saveEdit }: SingleActivityProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [activity, setActivity] = useState(act);
 
+  const isToday = dayjs(activity.date).isSame(dayjs(), 'day');
+
   const handleSave = () => {
-    saveEdit(activity);
+    let res = saveEdit(activity);
+    if (!res) {
+      setActivity(act);
+    }
     setIsEditMode(false);
   };
 
@@ -37,7 +42,7 @@ const SingleActivity = ({ act, onClick, saveEdit }: SingleActivityProps) => {
 
   if (isEditMode) {
     return (
-      <div className='relative flex flex-col m-4 bg-green-200 p-4 rounded-lg w-64'>
+      <div className='relative flex flex-1 w-64 flex-col my-4 bg-green-200 p-4 rounded-lg '>
         <h2 className='font-bold text-xl'>Edit Activity</h2>
         <select
           name='type'
@@ -96,7 +101,10 @@ const SingleActivity = ({ act, onClick, saveEdit }: SingleActivityProps) => {
   return (
     <div
       onClick={handleEditClick}
-      className='relative flex flex-col m-4 bg-green-200 hover:bg-teal-200 cursor-pointer p-4 rounded-lg w-64'
+      className={
+        'relative w-64 h-54 flex-1 flex flex-col bg-green-200 hover:bg-teal-200 cursor-pointer p-4 rounded-lg my-4' +
+        (isToday ? ' border-2 border-turfGreen' : '')
+      }
     >
       <button
         id={act.id}
@@ -105,12 +113,12 @@ const SingleActivity = ({ act, onClick, saveEdit }: SingleActivityProps) => {
       >
         &times;
       </button>
-      <h2 className='font-bold text-xl'>{activity.type}</h2>
+      <h2 className='font-bold text-xl truncate'>{activity.type}</h2>
       <p className='mt-2 text-gray-700'>
         {dayjs(activity.date).format('DD.MM.YYYY')}
       </p>
+      <p>time: {dayjs(activity.date).format('HH:mm')}</p>
       <p className='mt-2 font-medium'>pitch: {activity.pitch}</p>
-      <p className='text-sm text-gray-700'>{activity.user}</p>
     </div>
   );
 };

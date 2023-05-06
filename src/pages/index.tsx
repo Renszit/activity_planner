@@ -8,12 +8,10 @@ const inter = Inter({ subsets: ['latin'] });
 export default function Home() {
   return (
     <main
-      className={`flex min-h-screen justify-center p-24 ${inter.className} `}
+      className={`flex min-w-[443px] flex-col min-h-screen p-8 bg-white ${inter.className} `}
     >
-      <div>
-        <Weather />
-        <Activities />
-      </div>
+      <Weather />
+      <Activities />
     </main>
   );
 }

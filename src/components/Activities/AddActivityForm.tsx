@@ -4,6 +4,7 @@ import {
   ActivityUser,
   ActivityPitch,
 } from '@/types/activities';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { useState } from 'react';
 
@@ -13,7 +14,7 @@ interface Props {
 
 const AddActivityForm: React.FC<Props> = ({ onSubmit }) => {
   const [type, setType] = useState<ActivityType>('Mowing');
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Dayjs>(dayjs());
   const [user, setUser] = useState<ActivityUser>('John');
   const [pitch, setPitch] = useState<ActivityPitch>(1);
 
@@ -25,7 +26,7 @@ const AddActivityForm: React.FC<Props> = ({ onSubmit }) => {
 
   return (
     <form
-      className='bg-white rounded-lg shadow-md p-6 space-y-4 my-5 place-content-center'
+      className='bg-white border rounded-lg flex-3 p-6 space-y-4 my-4 place-content-center max-h-96'
       onSubmit={handleSubmit}
     >
       <div className='flex flex-col'>
@@ -44,15 +45,16 @@ const AddActivityForm: React.FC<Props> = ({ onSubmit }) => {
           <option value='Aeration'>Aeration</option>
         </select>
       </div>
+
       <div className='flex flex-col'>
         <label htmlFor='date' className='text-gray-700'>
           Date
         </label>
         <input
           id='date'
-          type='date'
-          value={date.toISOString().slice(0, 10)}
-          onChange={(event) => setDate(new Date(event.target.value))}
+          type='datetime-local'
+          value={dayjs(date).format('YYYY-MM-DDTHH:mm')}
+          onChange={(event) => setDate(dayjs(event.target.value))}
           className='rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 mt-1'
         />
       </div>
@@ -90,9 +92,9 @@ const AddActivityForm: React.FC<Props> = ({ onSubmit }) => {
       </div>
       <button
         type='submit'
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+        className='bg-blue-500 w-full  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
       >
-        Add new task
+        Add task
       </button>
     </form>
   );
